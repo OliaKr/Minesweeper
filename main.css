@@ -1,0 +1,35 @@
+*{
+    text-align: center;
+    background-color: rgb(111, 171, 179);
+    color: white;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+
+.board-container{
+    display: inline-block;
+    padding-top: 10px;
+}
+
+
+.board, th, td {
+        border: 1px solid black;
+        width: 30px;
+        height: 30px;
+        text-align: center;
+        cursor: pointer;
+        background-color: tomato;
+       
+}
+
+
+
+.level-btn{
+    margin: auto;
+    width: 140px;
+    height: 30px;
+    background-color: thistle;
+    cursor: pointer;
+    padding: 0
+}
+ 
