@@ -1,41 +1,63 @@
-// function buildBoard(gCell, ROWS, COLS) {
-//     var mat = []
-//     for (var i = 0; i < ROWS; i++) {
-//         var row = []
-//         for (var j = 0; j < COLS; j++) {
-//             row.push(gCell)
+
+// function printBoard(selector) {
+//     var strHTML = ``
+//     for (var i = 0; i < gLevel.boardLength; i++) {
+//         strHTML += '<tr>'
+//         for (var j = 0; j < gLevel.boardLength; j++) {
+//             var className = getClassName({ i: i, j: j })
+//             strHTML += `<td class="${className} cell${i}-${j}" onmousedown="handleClick(this, ${i}, ${j}, event)"></td>`
 //         }
-//         mat.push(row)
+//         strHTML += '</tr>'
 //     }
-//     return mat
+
+//     var elContainer = document.querySelector(selector)
+//     elContainer.innerHTML = strHTML
 // }
 
 
-//Get empty location
-function getEmptyLocation() {
-    var emptyLocations = [];
-    for (var i = 0; i < gBoard.length; i++) {
-        for (var j = 0; j < gBoard[0].length; j++) {
-            if (gBoard[i][j] === EMPTY) emptyLocations.push({ i: i, j: j });
+
+function renderBoard(selector) {
+    var strHTML = ''
+    for (var i = 0; i < gLevel.boardLength; i++) {
+        strHTML += '<tr>'
+        for (var j = 0; j < gLevel.boardLength; j++) {
+            var className = getClassName({ i: i, j: j })
+            strHTML += `<td class="${className} cell${i}-${j} clicked" onclick="revealCell(this, ${i}, ${j}), event"></td>`
         }
+        strHTML += '</tr>'
     }
-    if (!emptyLocations.length) return null;
-    return emptyLocations[getRandomIntInclusive(0, emptyLocations.length - 1)];
+
+    var elContainer = document.querySelector(selector)
+    elContainer.innerHTML = strHTML
 }
 
-//neigboors
-function countNegs(mat, rowIdx, colIdx) {
-    var count = 0;
-    for (var i = rowIdx - 1; i <= rowIdx + 1; i++) {
-        if (i < 0 || i > mat.length - 1) continue;
-        for (var j = colIdx - 1; j <= colIdx + 1; j++) {
-            if (j < 0 || j > mat[0].length - 1) continue;
-            if (i === rowIdx && j === colIdx) continue;
-            if (mat[i][j] === MINE_ICON) count++;
+
+
+//Get empty location
+function returnEmptyCell() {
+    var emptyCells  = [];
+    for (var i = 0; i < gBoard.length; i++) {
+        for (var j = 0; j < gBoard[0].length; j++) {
+            if (!gBoard[i][j].isMine && !gBoard[i][j].isShown) emptyCells.push({ i: i, j: j });
         }
     }
-    return count
+    var emptyCell = emptyCells[getRandomIntInt(0, emptyCells.lengt -1)]
+    return emptyCell
 }
+
+// //neigboors
+// function countNegs(mat, rowIdx, colIdx) {
+//     var count = 0;
+//     for (var i = rowIdx - 1; i <= rowIdx + 1; i++) {
+//         if (i < 0 || i > mat.length - 1) continue;
+//         for (var j = colIdx - 1; j <= colIdx + 1; j++) {
+//             if (j < 0 || j > mat[0].length - 1) continue;
+//             if (i === rowIdx && j === colIdx) continue;
+//             if (mat[i][j] === MINE_ICON) count++;
+//         }
+//     }
+//     return count
+// }
 
 
 function drawNum() {
@@ -59,19 +81,13 @@ function renderCell(location, value) {
     elCell.innerHTML = value;
 }
 
-function getRandomIntInt(min, max) {
-    return Math.floor(Math.random() * (max - min)) + min
+function getClassName(location) {
+    var cellClass = 'cell-' + location.i + '-' + location.j;
+    return cellClass;
 }
 
-
-
-function getRandomColor() {
-    var letters = '0123456789ABCDEF'
-    var color = '#'
-    for (var i = 0; i < 6; i++) {
-        color += letters[Math.floor(Math.random() * 16)]
-    }
-    return color
+function getRandomIntInt(min, max) {
+    return Math.floor(Math.random() * (max - min)) + min
 }
 
 
@@ -84,15 +100,54 @@ function startTimer() {
     }, 10)
 }
 
-function revealNonBomb(mat, rowIdx, colIdx) {
-    var nonbombNegs = []
-    for (var i = rowIdx - 1; i <= rowIdx + 1; i++) {
-        if (i < 0 || i > mat.length - 1) continue;
-        for (var j = colIdx - 1; j <= colIdx + 1; j++) {
-            if (j < 0 || j > mat[0].length - 1) continue;
-            if (i === rowIdx && j === colIdx) continue;
-            nonbombNegs.push(mat[i][j])
+function setMinesNegsCount() {
+    var count = 0;
+    for (var i = 0; i < gBoard.length; i++) {
+        for (var j = 0; j < gBoard.length; j++) {
+            count = minesNegsCoun(gBoard, i, j);
+            gBoard[i][j].minesAroundCount = count;
         }
     }
-    return nonbombNegs
+    return count
+}
+
+function minesNegsCoun(board, rowIdx, colIdx) {
+    var count = 0;
+
+    for (var i = rowIdx - 1; i <= rowIdx + 1; i++) {
+        if (i < 0 || i > board.length - 1) continue;
+        for (var j = colIdx - 1; j <= colIdx + 1; j++) {
+
+            if (j < 0 || j > board[0].length - 1) continue
+            if (i === rowIdx && j === colIdx) continue
+            if (gBoard[i][j].isMine) count++
+        }
+    }
+    return count
+}
+
+function revealNegsOfZ(rowIdx, colIdx) {
+    for (var i = rowIdx - 1; i <= rowIdx + 1; i++) {
+
+        if (i < 0 || i > gBoard.length - 1) continue;
+        for (var j = colIdx - 1; j <= colIdx + 1; j++) {
+            if (j < 0 || j > gBoard[0].length - 1) continue
+
+            if (!gBoard[i][j].isMarked && !gBoard[i][j].isShown) {
+                gBoard[i][j].isShown = !gBoard[i][j].isShown
+                gGame.shownCount++;
+
+                var location = { i, j }
+                var minesAroundCount = gBoard[i][j].minesAroundCount;
+                if (minesAroundCount === 0) {
+                    renderCell(location, EMPTY)
+                } else if (minesAroundCount > 0) {
+                    renderCell(location, minesAroundCount)
+                }
+                if (minesAroundCount === EMPTY) {
+                    revealNegsOfZ(location.i, location.j)
+                }
+            }
+        }
+    }
 }

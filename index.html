@@ -4,41 +4,44 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="main.css">
     <title>Minesweeper</title>
 </head>
 
-
 <body onload="onInit()">
-    
-    <div class="game-page">
-        <h1>Minesweeper</h1>
-        <h2>You have 3 lives: ❤️❤️❤️ </h2>
-
-        <div>
-            <button class="level-btn" onclick="setDifficultyLevel(16)">Easy</button>
-            <button class="level-btn" onclick="setDifficultyLevel(64)">Medium</button>
-            <button class="level-btn" onclick="setDifficultyLevel(144)">Hard</button>
-            <button class="restart-btn" onclick="resetGame()">😊</button>
-
-        </div>
-
-        <div class="timer">
-            <p class="timerDisplay">0:00</p>
-        </div>
+    <div class="heading">
+        <h2>Minesweeper</h2>
+        <h3></h3>
         
-        <div class="board-container">
-            <table>
-                <tbody class="board"></tbody>
-                
-            </table>
-        </div>
-        
-        <footer>
-            <h5>Presented by: Olia krasilnikov</h5> 
-        </footer>
     </div>
+    <div class="game-info">
+        <span class="lives"> Lives: ❤️❤️❤️||</span>
+        <span class="timerDisplay">00:00</span>
+        <h4 class="lose-dis"> Unfortunately you lost
+           Try Again!
+        </h4>
+        <h4 class="win-dis">'Excellent job! </h4>
+    </div>
+    <div class="btns">
+        <button class="level-btn" onclick="setDifficultyLevel(16)">Easy!</button>
+        <button class="level-btn" onclick="setDifficultyLevel(64)">Medium!</button>
+        <button class="level-btn" onclick="setDifficultyLevel(144)">Hard!</button><br>
+    </div>
+    <div>
+        <p class="smiley" onclick="resetGame()">😊</p>
+    </div>
+    </div>
+    <div class="board-container">
+        <table>
+            <tbody class="board" oncontextmenu="return false"></tbody>
+        </table>
+    </div>
+    <footer>
+        <h5>Presented by: Olia Krasilnikov</h5>
+    </footer>
     <script src="utilis.js"></script>
     <script src="main.js"></script>
-              
 </body>
+
+</html>

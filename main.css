@@ -1,35 +1,85 @@
 *{
     text-align: center;
-    background-color: rgb(111, 171, 179);
+    background-color: rgb(86, 143, 180);
     color: white;
     font-family: 'Times New Roman', Times, serif;
 }
 
+body{
+    overflow: hidden;
+    height: auto;
+}
 
 .board-container{
     display: inline-block;
-    padding-top: 10px;
+    padding-top: 2px;
 }
 
 
 .board, th, td {
         border: 1px solid black;
-        width: 30px;
-        height: 30px;
+        width: 25px;
+        height: 25px;
         text-align: center;
         cursor: pointer;
         background-color: tomato;
        
 }
 
-
-
 .level-btn{
-    margin: auto;
-    width: 140px;
-    height: 30px;
-    background-color: thistle;
+    margin-top: 5px;
+    padding-bottom: 10px;
     cursor: pointer;
-    padding: 0
+    background-color: rosybrown;
+    border: 2px solid thistle;
+    color: white;
+    outline: none;
+    width: 120px;
+    height: 40px;
+    border-radius: 4px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 400i;
 }
- 
+
+.level-btn:hover {
+    transition-duration: 0.4s;
+    background-color: thistle;
+    color: black;
+    font-weight: bolder;
+}
+
+
+ .lose-dis{
+    display: none;
+} 
+
+
+.win-dis{
+    display: none;
+}
+
+
+.btns{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    padding-top: 20px;
+
+}
+
+.board-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 10px;
+}
+
+.smiley{
+    cursor: pointer;
+}
+
+.revealed{
+    background-color: lightpink;
+}
+
