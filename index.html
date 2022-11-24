@@ -12,35 +12,44 @@
 <body onload="onInit()">
     <div class="heading">
         <h2>Minesweeper</h2>
-        <h3></h3>
-        
+        <h3>Lets's play!</h3>
     </div>
     <div class="game-info">
         <span class="lives"> Lives: ❤️❤️❤️||</span>
         <span class="timerDisplay">00:00</span>
         <h4 class="lose-dis"> Unfortunately you lost
-           Try Again!
+            Try Again!
         </h4>
-        <h4 class="win-dis">'Excellent job! </h4>
+        <h4 class="win-dis">'Awesome job</h4>
     </div>
     <div class="btns">
-        <button class="level-btn" onclick="setDifficultyLevel(16)">Easy!</button>
-        <button class="level-btn" onclick="setDifficultyLevel(64)">Medium!</button>
-        <button class="level-btn" onclick="setDifficultyLevel(144)">Hard!</button><br>
+        <button class="level-btn" onclick="setDifficultyLevel(4)">Easy</button>
+        <button class="level-btn" onclick="setDifficultyLevel(8)">Medium</button>
+        <button class="level-btn" onclick="setDifficultyLevel(12)">Hard</button><br>
     </div>
     <div>
         <p class="smiley" onclick="resetGame()">😊</p>
     </div>
     </div>
+    <div class="hints-box">
+        <button onclick="getHint()">Get hint: </button>
+        <span></span>
+
+
+    </div>
     <div class="board-container">
         <table>
             <tbody class="board" oncontextmenu="return false"></tbody>
+        
+       
         </table>
+
+       
     </div>
     <footer>
-        <h5>Presented by: Olia Krasilnikov</h5>
+        <h5>Presented by: Olia krasilnikov</h5>
     </footer>
-    <script src="utilis.js"></script>
+    <script src="utils.js"></script>
     <script src="main.js"></script>
 </body>
 

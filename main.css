@@ -41,6 +41,8 @@ body{
     font-weight: 400i;
 }
 
+
+
 .level-btn:hover {
     transition-duration: 0.4s;
     background-color: thistle;
@@ -75,11 +77,28 @@ body{
     padding-top: 10px;
 }
 
+
+
 .smiley{
     cursor: pointer;
 }
+
+
 
 .revealed{
     background-color: lightpink;
 }
 
+.hints-box {
+    float : center
+    
+}
+
+.hint {
+    height: 30px;
+    width :150px
+   
+
+
+}
+ 
