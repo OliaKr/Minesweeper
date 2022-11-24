@@ -48,7 +48,7 @@ function startTimer() {
 
 
 function setMinesAroundCount() {
-    // var count = 0;
+    
     for (var i = 0; i < gBoard.length; i++) {
         for (var j = 0; j < gBoard[0].length; j++) {
             if (gBoard[i][j]. isMine) continue
@@ -57,7 +57,7 @@ function setMinesAroundCount() {
         //     gBoard[i][j].minesAroundCount = count;
         }
     }
-    // return count
+    
 }
 
 
@@ -73,7 +73,7 @@ function countNeighbors(cellI, cellJ) {
             if (gBoard[i][j].isMine) mineCount++
         }
     }
-    // if (!mineCount) mineCount = ''
+  
  
     return mineCount
 }

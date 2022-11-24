@@ -62,18 +62,9 @@ function buildBoard(boardLength) {
     return board
 }
 
-//for 4*4 no fixed
-//for 8*8 12 fixed
-// for 12*12 30 fixed
 
-/*
-    1 1 1 1
-    3 4 5 6
-    6 6 6 8
-    4 4 5 1
-     */
 
-//todo move 2/8/16 etc to consts
+
 function setDifficultyLevel(colLen) {
     gLevel.boardSize = colLen*colLen
     gLevel.boardLength = colLen
@@ -84,7 +75,7 @@ function setDifficultyLevel(colLen) {
 }
 
 
-//step 1 debugging and understanding game purpose
+
 function placeFixedMines(firstCI, firstCJ){
     var numberOfMinesPlaced = 0;
     var maxManualMines = gLevel.numOfMines ;
@@ -120,7 +111,7 @@ function placeRandomMines(firstCI,firstCJ){
 
 
 function placeMines(firstCI, firstCJ) {
-    //placeFixedMines(firstCI,firstCJ) // was used for step 1
+   
     placeRandomMines(firstCI,firstCJ)
 }
 
