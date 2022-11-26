@@ -36,12 +36,8 @@ function onInit() {
     renderBoard('.board')
     gGame.isOn = true
     clearInterval(gTimerInterval)
-    renderSymbol(gGame.hints, HINT)
-   
-    
-  
+    renderSymbol(gGame.hints, HINT)  
 }
-
 
 function buildBoard(boardLength) {
     var board = []
@@ -59,10 +55,9 @@ function buildBoard(boardLength) {
             }
         }
     }
+    
     return board
 }
-
-
 
 
 function setDifficultyLevel(colLen) {
@@ -73,8 +68,6 @@ function setDifficultyLevel(colLen) {
     else if (gLevel.boardLength === 12) gLevel.numOfMines = 32
     resetGame()
 }
-
-
 
 function placeFixedMines(firstCI, firstCJ){
     var numberOfMinesPlaced = 0;
@@ -94,19 +87,20 @@ function placeFixedMines(firstCI, firstCJ){
 function placeRandomMines(firstCI,firstCJ){
     var numberOfMinesPlaced = 0;
     var maxManualMines = gLevel.numOfMines;
-    var i = getRandomIntInt(0, gLevel.boardLength )
-    var j = getRandomIntInt(0, gLevel.boardLength )
+    var i = getRandomInt(0, gLevel.boardLength )
+    var j = getRandomInt(0, gLevel.boardLength )
 
     while (numberOfMinesPlaced < maxManualMines ) {
         if (!gBoard[i][j].isMine && (i !== firstCI || j !== firstCJ)) {
 
             gBoard[i][j].isMine = true
             numberOfMinesPlaced++
-            console.log("mine place",numberOfMinesPlaced)
+            // console.log("mine place",numberOfMinesPlaced)
         }
-        i = getRandomIntInt(0, gLevel.boardLength)
-        j = getRandomIntInt(0, gLevel.boardLength)
+        i = getRandomInt(0, gLevel.boardLength)
+        j = getRandomInt(0, gLevel.boardLength)
     }
+    
 }
 
 
@@ -149,10 +143,7 @@ function handleClick(elCell, i, j, event) {
 
 // left click
 function revealCell( i, j, isHint= false) {
-    
-    
     if (gBoard[i][j].isMarked ) return
-
     if (!gBoard[i][j].isShown) {
         gBoard[i][j].isShown = !gBoard[i][j].isShown
         var randLocation = { i: i, j: j }
@@ -164,8 +155,7 @@ function revealCell( i, j, isHint= false) {
                 gLives--
                 gBoard[i][j].minesAroundCount++
                 usersLives()
-            }
-            
+            }    
         } else {
             if (gBoard[i][j].minesAroundCount === 0) {
                 renderCell(randLocation, EMPTY);
@@ -179,10 +169,7 @@ function revealCell( i, j, isHint= false) {
             }
         }
     }
-
 }
-
-
 
 //right click
 function markCell(i, j) {
@@ -202,8 +189,6 @@ function markCell(i, j) {
     }
 }
 
-
-
 function usersLives() {
     if (gLives === 1) USER_HEARTS.innerText = ' Lives: ❤️||'
     else if (gLives === 2) USER_HEARTS.innerText = ' Lives: ❤️❤️||'
@@ -215,7 +200,6 @@ function usersLives() {
 }
 
 
-
 function checkVictory() {
     if (gGame.shownCount + gGame.markedCount === gLevel.boardSize && gLives > 0) {
         gGame.isOn = false
@@ -225,7 +209,6 @@ function checkVictory() {
     }
 
 }
-
 
 function gameOver() {
     LOOSE_DISPLAY.style.display = 'block'
@@ -265,8 +248,6 @@ function hint(cellI, cellJ) {
         }
     }
 
-
-
     setTimeout(function() {
         for (var i = 0; i < hintedCells.length; i++) {
             hideCell(hintedCells[i], EMPTY)
@@ -298,6 +279,33 @@ function renderSymbol(amount, symbol) {
     }
     if (HINT) {
         elHints.innerHTML = symbolStr
+    }
+}
+
+function expandedView(rowIdx, colIdx) {
+    for (var i = rowIdx - 1; i <= rowIdx + 1; i++) {
+
+        if (i < 0 || i > gBoard.length - 1) continue;
+        for (var j = colIdx - 1; j <= colIdx + 1; j++) {
+
+            if (j < 0 || j >= gBoard[i].length || (i === rowIdx && j === colIdx)) continue 
+
+            if (!gBoard[i][j].isMarked && !gBoard[i][j].isShown) {
+                gBoard[i][j].isShown = !gBoard[i][j].isShown
+                gGame.shownCount++;
+
+                var location = { i, j }
+                var minesAroundCount = gBoard[i][j].minesAroundCount;
+                if (minesAroundCount === 0) {
+                    renderCell(location, EMPTY)
+                } else if (minesAroundCount > 0) {
+                    renderCell(location, minesAroundCount)
+                }
+                if (minesAroundCount === EMPTY) {
+                    expandedView(location.i, location.j)
+                }
+            }
+        }
     }
 }
 

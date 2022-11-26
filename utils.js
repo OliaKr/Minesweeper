@@ -19,7 +19,7 @@ function renderCell(location, value) {
     elCell.classList.add('revealed')
     elCell.innerHTML = value
 }
-//olga
+
 function hideCell(location) {
     var elCell = document.querySelector(`.cell${location.i}-${location.j}`)
     elCell.classList.remove('revealed')
@@ -32,7 +32,7 @@ function getClassName(location) {
 }
 
 
-function getRandomIntInt(min, max) {
+function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min)) + min
 }
 
@@ -53,13 +53,10 @@ function setMinesAroundCount() {
         for (var j = 0; j < gBoard[0].length; j++) {
             if (gBoard[i][j]. isMine) continue
             else gBoard[i][j].minesAroundCount = countNeighbors(i, j)
-            // count = countNeighbors(gBoard, i, j);
-        //     gBoard[i][j].minesAroundCount = count;
         }
     }
     
 }
-
 
 function countNeighbors(cellI, cellJ) {
     var mineCount = 0;
@@ -73,34 +70,7 @@ function countNeighbors(cellI, cellJ) {
             if (gBoard[i][j].isMine) mineCount++
         }
     }
-  
- 
     return mineCount
 }
 
-function expandedView(rowIdx, colIdx) {
-    for (var i = rowIdx - 1; i <= rowIdx + 1; i++) {
 
-        if (i < 0 || i > gBoard.length - 1) continue;
-        for (var j = colIdx - 1; j <= colIdx + 1; j++) {
-
-            if (j < 0 || j >= gBoard[i].length || (i === rowIdx && j === colIdx)) continue 
-
-            if (!gBoard[i][j].isMarked && !gBoard[i][j].isShown) {
-                gBoard[i][j].isShown = !gBoard[i][j].isShown
-                gGame.shownCount++;
-
-                var location = { i, j }
-                var minesAroundCount = gBoard[i][j].minesAroundCount;
-                if (minesAroundCount === 0) {
-                    renderCell(location, EMPTY)
-                } else if (minesAroundCount > 0) {
-                    renderCell(location, minesAroundCount)
-                }
-                if (minesAroundCount === EMPTY) {
-                    expandedView(location.i, location.j)
-                }
-            }
-        }
-    }
-}
